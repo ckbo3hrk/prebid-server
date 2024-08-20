@@ -67,7 +67,8 @@
                   "cat": ["IAB2"],
                   "adomain": ["test.com"],
                   "h": 250,
-                  "w": 300
+                  "w": 300,
+                  "mtype": 1
               }]
           }],
           "bidid": "wehM-93KGr0"
@@ -92,7 +93,8 @@
             "crid": "19005",
             "w": 300,
             "h": 250,
-            "cat": ["IAB2"]
+            "cat": ["IAB2"],
+	    "mtype": 1
           },
           "type": "banner"
         }

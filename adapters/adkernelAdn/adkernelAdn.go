@@ -242,24 +242,31 @@ func (adapter *adkernelAdnAdapter) MakeBids(internalRequest *openrtb2.BidRequest
 
 	for i := 0; i < len(seatBid.Bid); i++ {
 		bid := seatBid.Bid[i]
+		bidType, err := getMediaTypeForBid(&bid)
+		if err != nil {
+		    return nil, []error{err}
+		}
 		bidResponse.Bids = append(bidResponse.Bids, &adapters.TypedBid{
 			Bid:     &bid,
-			BidType: getMediaTypeForImpID(bid.ImpID, internalRequest.Imp),
+			BidType: bidType,
 		})
 	}
 	return bidResponse, nil
 }
 
 // getMediaTypeForImp figures out which media type this bid is for
-func getMediaTypeForImpID(impID string, imps []openrtb2.Imp) openrtb_ext.BidType {
-	for _, imp := range imps {
-		if imp.ID == impID && imp.Banner != nil {
-			return openrtb_ext.BidTypeBanner
-		}
+func getMediaTypeForBid(bid *openrtb2.Bid) (openrtb_ext.BidType, error) {
+    switch bid.MType {
+    case openrtb2.MarkupBanner:
+	return openrtb_ext.BidTypeBanner, nil
+    case openrtb2.MarkupVideo:
+	return openrtb_ext.BidTypeVideo, nil
+    default:
+	return "", &errortypes.BadServerResponse{
+	    Message: fmt.Sprintf("Unsupported MType %d", bid.MType),
 	}
-	return openrtb_ext.BidTypeVideo
+    }
 }
-
 func newBadInputError(message string) error {
 	return &errortypes.BadInput{
 		Message: message,

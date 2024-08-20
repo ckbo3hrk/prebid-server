@@ -75,7 +75,8 @@
                   "adm": "<!-- admarkup -->",
                   "adomain": [
                     "tag-example.com"
-                  ]
+                  ],
+                  "mtype": 1
                 }
               ]
             }
@@ -100,7 +101,8 @@
                 ],
                 "cid": "1001",
                 "adid": "2002",
-                "crid": "2002"
+                "crid": "2002",
+                "mtype": 1
               },
               "type": "banner"
             }
